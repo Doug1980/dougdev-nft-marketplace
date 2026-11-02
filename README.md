@@ -4,7 +4,7 @@ Solução do desafio Frontend da Jungle Gaming: marketplace de NFTs com catálog
 
 Toda a API REST e o servidor Socket.IO são simulados no navegador com **MSW**, então o projeto roda a partir de um checkout limpo, sem backend nem serviços privados.
 
-- **Aplicação publicada:** https://dougdev-nft-marketplace.vercel.app
+- **Aplicação publicada:** https://kurio-nft2026.vercel.app
 - **Repositório:** https://github.com/Doug1980/dougdev-nft-marketplace
 - **Arquitetura e decisões:** [ARCHITECTURE.md](./ARCHITECTURE.md)
 

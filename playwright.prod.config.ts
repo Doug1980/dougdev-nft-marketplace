@@ -10,5 +10,5 @@ export default defineConfig({
   ...base,
   webServer: undefined,
   grepInvert: /Visual regression/,
-  use: { ...base.use, baseURL: process.env.E2E_BASE_URL ?? 'https://dougdev-nft-marketplace.vercel.app' },
+  use: { ...base.use, baseURL: process.env.E2E_BASE_URL ?? 'https://kurio-nft2026.vercel.app' },
 })
