@@ -45,7 +45,8 @@ export function RootLayout() {
       <div className="hidden md:block">
         <Header />
       </div>
-      <main id="conteudo" tabIndex={-1} className="outline-none">
+      {/* min-h keeps the footer below the fold while lazy pages load (no layout shift). */}
+      <main id="conteudo" tabIndex={-1} className="min-h-dvh outline-none">
         <PendingOrderBanner />
         <Outlet />
       </main>

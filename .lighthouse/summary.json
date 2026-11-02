@@ -1,0 +1,296 @@
+{
+  "environment": {
+    "date": "2026-11-02T08:33:14.142Z",
+    "lighthouse": "13.6.0",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "node": "v22.20.0",
+    "os": "Windows_NT 10.0.26200 (x64)",
+    "cpu": "13th Gen Intel(R) Core(TM) i7-13650HX",
+    "vite": "^8.3.5",
+    "conditions": "vite preview (optimized build), mocks on, default scenario, 3 runs per page/profile, fresh Chrome profile per run, Lighthouse default throttling"
+  },
+  "targets": {
+    "performance": 90,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 90
+  },
+  "results": [
+    {
+      "page": "home",
+      "path": "/",
+      "profile": "mobile",
+      "median": {
+        "scores": {
+          "performance": 76,
+          "accessibility": 96,
+          "best-practices": 100,
+          "seo": 92
+        },
+        "metrics": {
+          "LCP": 4926.876,
+          "CLS": 0.0002517975124076385,
+          "TBT": 268,
+          "FCP": 758.844
+        }
+      },
+      "runs": [
+        {
+          "scores": {
+            "performance": 75,
+            "accessibility": 96,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 4926.876,
+            "CLS": 0.0002517975124076385,
+            "TBT": 315,
+            "FCP": 758.844
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 76,
+            "accessibility": 96,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 4954.224,
+            "CLS": 0.0002517975124076385,
+            "TBT": 268,
+            "FCP": 770.8620000000001
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 79,
+            "accessibility": 96,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 4839.06,
+            "CLS": 0.00025219124557601593,
+            "TBT": 202,
+            "FCP": 758.6400000000001
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        }
+      ]
+    },
+    {
+      "page": "home",
+      "path": "/",
+      "profile": "desktop",
+      "median": {
+        "scores": {
+          "performance": 99,
+          "accessibility": 97,
+          "best-practices": 100,
+          "seo": 92
+        },
+        "metrics": {
+          "LCP": 880.7999999999998,
+          "CLS": 0.0022296651806566203,
+          "TBT": 0,
+          "FCP": 207.49200000000002
+        }
+      },
+      "runs": [
+        {
+          "scores": {
+            "performance": 99,
+            "accessibility": 97,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 860.7299999999999,
+            "CLS": 0.0022296651806566203,
+            "TBT": 0,
+            "FCP": 207.49200000000002
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 99,
+            "accessibility": 97,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 924.33,
+            "CLS": 0.0022296651806566203,
+            "TBT": 0,
+            "FCP": 208.93200000000002
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 99,
+            "accessibility": 97,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 880.7999999999998,
+            "CLS": 0.0022296651806566203,
+            "TBT": 0,
+            "FCP": 207.12
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        }
+      ]
+    },
+    {
+      "page": "nft-detail",
+      "path": "/nft/emerald-ape-042",
+      "profile": "mobile",
+      "median": {
+        "scores": {
+          "performance": 83,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 92
+        },
+        "metrics": {
+          "LCP": 4617.2065,
+          "CLS": 0,
+          "TBT": 104.5,
+          "FCP": 761.9590000000001
+        }
+      },
+      "runs": [
+        {
+          "scores": {
+            "performance": 83,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 4616.896000000001,
+            "CLS": 0,
+            "TBT": 101.50000000000045,
+            "FCP": 760.2560000000001
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 83,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 4623.8565,
+            "CLS": 0,
+            "TBT": 104.5,
+            "FCP": 761.9590000000001
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 83,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 4617.2065,
+            "CLS": 0,
+            "TBT": 122.5,
+            "FCP": 1227.059
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        }
+      ]
+    },
+    {
+      "page": "nft-detail",
+      "path": "/nft/emerald-ape-042",
+      "profile": "desktop",
+      "median": {
+        "scores": {
+          "performance": 99,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 92
+        },
+        "metrics": {
+          "LCP": 965.1899999999998,
+          "CLS": 0.0003125634404520049,
+          "TBT": 0,
+          "FCP": 208.87599999999998
+        }
+      },
+      "runs": [
+        {
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 965.1899999999998,
+            "CLS": 0.0003125634404520049,
+            "TBT": 0,
+            "FCP": 208.87599999999998
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 979.7,
+            "CLS": 0.0003125634404520049,
+            "TBT": 0,
+            "FCP": 212.27999999999997
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        },
+        {
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 92
+          },
+          "metrics": {
+            "LCP": 954.9249999999997,
+            "CLS": 0.0003125634404520049,
+            "TBT": 0,
+            "FCP": 205.57
+          },
+          "lighthouseVersion": "13.6.0",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36"
+        }
+      ]
+    }
+  ]
+}

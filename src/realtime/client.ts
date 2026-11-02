@@ -5,7 +5,7 @@
  *  - dedupe by eventId and drop by version (no regression, no replayed effects);
  *  - on reconnect, resubscribes and triggers REST reconciliation.
  */
-import { io, type Socket } from 'socket.io-client'
+import type { Socket } from 'socket.io-client'
 import { type NftUpdatedEvent, nftUpdatedEvent, type OrderUpdatedEvent, orderUpdatedEvent } from '@/api/contracts'
 import { env } from '@/lib/env'
 
@@ -20,6 +20,18 @@ type Handlers = {
 
 const MAX_SEEN_EVENTS = 500
 
+/**
+ * socket.io-client is loaded on first connect, not at app startup:
+ * - keeps it out of the initial bundle (it is only needed after the first render);
+ * - engine.io-client captures `globalThis.WebSocket` when evaluated, so loading it after MSW has started
+ *   guarantees it sees the intercepted WebSocket, while the rest of the app can load in parallel with MSW.
+ */
+let ioModule: Promise<typeof import('socket.io-client')> | null = null
+const loadIo = () => {
+  ioModule ??= import('socket.io-client')
+  return ioModule
+}
+
 export class RealtimeClient {
   private readonly handlers: Handlers
   private socket: Socket | null = null
@@ -30,6 +42,8 @@ export class RealtimeClient {
   private versions = new Map<string, number>()
   private hasConnectedBefore = false
   private status: RealtimeStatus = 'idle'
+  /** Incremented on every connect/teardown: a socket created for an outdated identity is discarded. */
+  private generation = 0
 
   constructor(handlers: Handlers) {
     this.handlers = handlers
@@ -37,12 +51,19 @@ export class RealtimeClient {
 
   /** (Re)connects with the current identity. Called whenever the session changes. */
   connect(token: string | null, userId: string | null) {
-    if (this.socket && this.token === token) return
+    if (this.token === token) return // already connected or connecting with this identity
     this.teardown()
     this.token = token
     this.userId = userId
     this.setStatus('connecting')
 
+    const generation = ++this.generation
+    void loadIo().then(({ io }) => {
+      if (generation === this.generation) this.open(io, token)
+    })
+  }
+
+  private open(io: typeof import('socket.io-client')['io'], token: string | null) {
     const socket = io(env.socketUrl, {
       // MSW intercepts WebSocket only; HTTP long-polling would bypass the Socket.IO binding.
       transports: ['websocket'],
@@ -124,6 +145,7 @@ export class RealtimeClient {
   }
 
   teardown() {
+    this.generation += 1
     if (this.socket) {
       this.socket.removeAllListeners()
       this.socket.disconnect()
