@@ -1,9 +1,16 @@
 import type { QueryClient } from '@tanstack/react-query'
-import { createRootRouteWithContext, createRoute, createRouter, type ParsedLocation, redirect } from '@tanstack/react-router'
+import {
+  createRootRouteWithContext,
+  createRoute,
+  createRouter,
+  lazyRouteComponent,
+  type ParsedLocation,
+  redirect,
+} from '@tanstack/react-router'
 import { z } from 'zod'
 import { catalogSort, catalogTab, categoryId, networkId } from '@/api/contracts'
 import { RootLayout } from '@/components/layout/root-layout'
-import { catalogQueryOptions } from '@/features/catalog'
+import { catalogQueryOptions, nftQueryOptions } from '@/features/catalog'
 import { sessionStore } from '@/lib/session-store'
 import { ComingSoonPage } from '@/pages/coming-soon'
 import { HomePage } from '@/pages/home'
@@ -59,7 +66,11 @@ const homeRoute = createRoute({
 const nftRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/nft/$slug',
-  component: () => <PlaceholderPage title="Detalhes do NFT" />,
+  loader: ({ context, params }) => {
+    void context.queryClient.prefetchQuery(nftQueryOptions(params.slug))
+  },
+  // Code-split: the detail bundle loads only when this route is visited.
+  component: lazyRouteComponent(() => import('@/pages/nft-detail'), 'NftDetailPage'),
 })
 const cartRoute = createRoute({ getParentRoute: () => rootRoute, path: '/carrinho', component: () => <PlaceholderPage title="Carrinho" /> })
 const checkoutRoute = createRoute({
