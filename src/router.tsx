@@ -81,7 +81,7 @@ const checkoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/pagamento',
   beforeLoad: requireAuth,
-  component: () => <PlaceholderPage title="Pagamento" />,
+  component: lazyRouteComponent(() => import('@/pages/checkout'), 'CheckoutPage'),
 })
 const orderRoute = createRoute({
   getParentRoute: () => rootRoute,
