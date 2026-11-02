@@ -2,3 +2,6 @@
 *.png binary
 *.webp binary
 *.jpg binary
+# Generated audit reports: keep them out of GitHub's language statistics
+.lighthouse/** linguist-generated=true
+public/mockServiceWorker.js linguist-generated=true
