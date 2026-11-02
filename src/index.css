@@ -1,9 +1,9 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
-@import '@fontsource/roboto-mono/latin-400.css';
-@import '@fontsource/roboto-mono/latin-500.css';
-@import '@fontsource/roboto-mono/latin-700.css';
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource/roboto-mono/latin-400.css";
+@import "@fontsource/roboto-mono/latin-500.css";
+@import "@fontsource/roboto-mono/latin-700.css";
 
 /* Single dark theme from Figma. shadcn semantic tokens mapped to the Kurio palette. */
 :root {
@@ -36,8 +36,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-heading: var(--font-sans);
 
   --color-background: var(--background);
