@@ -155,6 +155,22 @@ Eventos de entrada compartilham um envelope com identidade, recurso e versão:
 - **Cenários** determinísticos (sem aleatoriedade), descritos no README.
 - **Servidor Socket.IO** via `@mswjs/socket.io-binding`, com ping manual do Engine.IO a cada 20 s, autenticação pela query e escopo de eventos por inscrição e por usuário.
 
+## Transporte do tempo real no ambiente de mocks
+
+- O servidor Socket.IO é simulado com `@mswjs/socket.io-binding` sobre a interceptação de **WebSocket** do MSW. O cliente usa o `socket.io-client` real, com `transports: ['websocket']`.
+- **Limitações:**
+  - não há fallback para HTTP long-polling (o binding intercepta apenas WebSocket), por isso o transporte é forçado para WebSocket;
+  - o binding não envia os pings do Engine.IO; o servidor simulado envia o ping manualmente a cada 20 s para a conexão não cair por timeout;
+  - o "servidor" vive na mesma aba: cada aba tem seu próprio servidor e banco, então eventos não atravessam abas ou dispositivos;
+  - o `socket.io-client` é carregado depois que o MSW intercepta o WebSocket, porque o `engine.io-client` guarda a referência do `WebSocket` global ao ser avaliado.
+- Em uma API real, basta `VITE_ENABLE_MOCKS=false` e `VITE_SOCKET_URL` apontando para o servidor; nenhum código do cliente muda.
+
+## Assets
+
+- Fontes **Roboto Mono** (400, 500 e 700) servidas localmente via `@fontsource`, sem requisições externas.
+- As artes dos NFTs são as 4 ilustrações exportadas do Figma (`public/nfts/*.webp`, convertidas para WebP). O catálogo simulado tem 54 NFTs para exercitar filtros e paginação, então as artes se repetem entre itens com nomes, coleções, preços e atributos diferentes. Os 9 NFTs do Figma mantêm nome e arte originais.
+- Ícones da interface: `lucide-react`; logos de redes sociais e login social: SVGs próprios em `brand-icons.tsx`; favicon próprio do Kurio.
+
 ## Acessibilidade
 
 - Skip link para o conteúdo, foco visível em todos os controles e títulos de página por rota.

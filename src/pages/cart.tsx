@@ -163,7 +163,8 @@ export function CartPage() {
       </nav>
       <h1 className="sr-only">Carrinho de NFTs</h1>
 
-      <div className="container-site mt-2 grid gap-10 lg:grid-cols-[782px_1fr] lg:gap-[86px]">
+      {/* Two columns only from xl: at 1024px the fixed 782px column overflowed. minmax(0,1fr) lets content shrink. */}
+      <div className="container-site mt-2 grid grid-cols-[minmax(0,1fr)] gap-10 xl:grid-cols-[782px_1fr] xl:gap-[86px]">
         <section aria-label="Itens do carrinho">
           <div aria-hidden className={`hidden border-b border-border pb-2 text-base font-bold md:grid ${DESKTOP_GRID}`}>
             <span>NFTs</span>

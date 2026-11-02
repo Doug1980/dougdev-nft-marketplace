@@ -343,13 +343,14 @@ export function CheckoutPage() {
       </nav>
       <h1 className="sr-only">Pagamento</h1>
 
-      <div className="container-site mt-8 grid gap-10 lg:grid-cols-[762px_1fr] lg:gap-8">
+      {/* Two columns only from xl: at 1024px the fixed 762px column overflowed. */}
+      <div className="container-site mt-8 grid grid-cols-[minmax(0,1fr)] gap-10 xl:grid-cols-[762px_1fr] xl:gap-8">
         <form
           id="checkout-form"
           onSubmit={(event) => void openReview(event)}
           noValidate
           aria-labelledby="buyer-title"
-          className="order-2 lg:order-1"
+          className="order-2 xl:order-1"
         >
           <h2 id="buyer-title" className="text-lg font-bold">
             Perfil do colecionador
@@ -431,7 +432,7 @@ export function CheckoutPage() {
           )}
         </form>
 
-        <aside aria-labelledby="your-nfts" className="order-1 flex flex-col gap-4 lg:order-2">
+        <aside aria-labelledby="your-nfts" className="order-1 flex flex-col gap-4 xl:order-2">
           <h2 id="your-nfts" className="text-lg font-bold">
             Seus NFTs
           </h2>

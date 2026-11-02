@@ -136,6 +136,9 @@ npm run test:e2e
 - Cada teste usa um contexto novo do navegador (banco simulado semeado do zero).
 - Eventos de tempo real passam pelo cliente Socket.IO; chamadas REST passam pelos handlers MSW. Nenhum evento é injetado direto na interface.
 - **Regressão visual:** as baselines são por plataforma (`-linux.png`, `-win32.png`). Em uma plataforma nova, a primeira execução cria as suas.
+- **Tempo controlado:** a latência vem do cenário `fast` (sem atraso) ou do cenário em teste; eventos de tempo real, expiração de sessão e mudanças de estoque são disparados pelas rotas de controle da simulação (`/api/__mock/*`), e a liquidação do pedido tem duração fixa. Nenhum teste depende de espera aleatória.
+- **Relatório e traces:** `npm run test:e2e:report` abre o relatório HTML; em falhas, screenshot e trace ficam em `test-results/` (`npx playwright show-trace <arquivo>`).
+- **Responsividade:** além dos viewports dos testes (390 e 1440), as telas foram verificadas sem rolagem horizontal em 320, 768 e 1024 px (320 px equivale ao zoom de 400% em uma tela de 1280 px).
 
 | Arquivo             | Cobertura                                                                                                                    |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
