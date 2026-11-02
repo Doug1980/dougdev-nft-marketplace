@@ -5,8 +5,10 @@ import { catalogSort, catalogTab, categoryId, networkId } from '@/api/contracts'
 import { RootLayout } from '@/components/layout/root-layout'
 import { catalogQueryOptions } from '@/features/catalog'
 import { sessionStore } from '@/lib/session-store'
+import { ComingSoonPage } from '@/pages/coming-soon'
 import { DevCheckPage } from '@/pages/dev-check'
 import { NotFoundPage } from '@/pages/not-found'
+import { PlaceholderPage } from '@/pages/placeholder'
 
 export type RouterContext = { queryClient: QueryClient }
 
@@ -54,21 +56,65 @@ const homeRoute = createRoute({
   component: DevCheckPage,
 })
 
+const nftRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/nft/$slug',
+  component: () => <PlaceholderPage title="Detalhes do NFT" />,
+})
+const cartRoute = createRoute({ getParentRoute: () => rootRoute, path: '/carrinho', component: () => <PlaceholderPage title="Carrinho" /> })
+const checkoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/pagamento',
+  beforeLoad: requireAuth,
+  component: () => <PlaceholderPage title="Pagamento" />,
+})
+const orderRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/pedidos/$orderId',
+  beforeLoad: requireAuth,
+  component: () => <PlaceholderPage title="Pedido" />,
+})
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/entrar',
   validateSearch: authSearchSchema,
-  component: () => <p className="container-site py-10">Login (Etapa 4)</p>,
+  component: () => <PlaceholderPage title="Entrar" />,
 })
-
-const profileRoute = createRoute({
+const registerRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/perfil',
-  beforeLoad: requireAuth,
-  component: () => <p className="container-site py-10">Perfil (Etapa 4)</p>,
+  path: '/cadastro',
+  validateSearch: authSearchSchema,
+  component: () => <PlaceholderPage title="Criar conta" />,
 })
+const profileRoute = createRoute({ getParentRoute: () => rootRoute, path: '/perfil', beforeLoad: requireAuth })
+const profileIndexRoute = createRoute({
+  getParentRoute: () => profileRoute,
+  path: '/',
+  component: () => <PlaceholderPage title="Perfil do colecionador" />,
+})
+const walletsRoute = createRoute({
+  getParentRoute: () => profileRoute,
+  path: '/carteiras',
+  component: () => <PlaceholderPage title="Carteiras" />,
+})
+const favoritesRoute = createRoute({
+  getParentRoute: () => profileRoute,
+  path: '/favoritos',
+  component: () => <PlaceholderPage title="Lista de interesse" />,
+})
+const comingSoonRoute = createRoute({ getParentRoute: () => rootRoute, path: '/em-breve/$section', component: ComingSoonPage })
 
-const routeTree = rootRoute.addChildren([homeRoute, loginRoute, profileRoute])
+const routeTree = rootRoute.addChildren([
+  homeRoute,
+  nftRoute,
+  cartRoute,
+  checkoutRoute,
+  orderRoute,
+  loginRoute,
+  registerRoute,
+  profileRoute.addChildren([profileIndexRoute, walletsRoute, favoritesRoute]),
+  comingSoonRoute,
+])
 
 export function createAppRouter(queryClient: QueryClient) {
   return createRouter({
