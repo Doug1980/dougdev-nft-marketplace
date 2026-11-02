@@ -12,6 +12,10 @@ async function bootstrap() {
     const { startMocks } = await import('./mocks/browser')
     await startMocks()
   }
+  // Revalidate a persisted session before the first render so private routes do not flash the sign-in page.
+  const { restoreSession } = await import('./features/auth')
+  await restoreSession()
+
   const { default: App } = await import('./App')
   const root = document.getElementById('root')
   if (!root) throw new Error('Missing #root element')
