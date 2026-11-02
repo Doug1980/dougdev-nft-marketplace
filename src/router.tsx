@@ -15,7 +15,6 @@ import { sessionStore } from '@/lib/session-store'
 import { ComingSoonPage } from '@/pages/coming-soon'
 import { HomePage } from '@/pages/home'
 import { NotFoundPage } from '@/pages/not-found'
-import { PlaceholderPage } from '@/pages/placeholder'
 
 export type RouterContext = { queryClient: QueryClient }
 
@@ -101,21 +100,26 @@ const registerRoute = createRoute({
   validateSearch: authSearchSchema,
   component: lazyRouteComponent(() => import('@/pages/auth'), 'RegisterPage'),
 })
-const profileRoute = createRoute({ getParentRoute: () => rootRoute, path: '/perfil', beforeLoad: requireAuth })
+const profileRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/perfil',
+  beforeLoad: requireAuth,
+  component: lazyRouteComponent(() => import('@/pages/account'), 'AccountLayout'),
+})
 const profileIndexRoute = createRoute({
   getParentRoute: () => profileRoute,
   path: '/',
-  component: () => <PlaceholderPage title="Perfil do colecionador" />,
+  component: lazyRouteComponent(() => import('@/pages/profile'), 'ProfilePage'),
 })
 const walletsRoute = createRoute({
   getParentRoute: () => profileRoute,
   path: '/carteiras',
-  component: () => <PlaceholderPage title="Carteiras" />,
+  component: lazyRouteComponent(() => import('@/pages/wallets'), 'WalletsPage'),
 })
 const favoritesRoute = createRoute({
   getParentRoute: () => profileRoute,
   path: '/favoritos',
-  component: () => <PlaceholderPage title="Lista de interesse" />,
+  component: lazyRouteComponent(() => import('@/pages/favorites'), 'FavoritesPage'),
 })
 const explorerRoute = createRoute({
   getParentRoute: () => rootRoute,
