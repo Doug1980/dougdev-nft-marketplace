@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useAcknowledgePrice, useCart, useQuote, useRemoveCartItem, useUpdateCartItem } from '@/features/cart'
 import { useDocumentTitle } from '@/hooks/use-document-title'
 import { eth, formatEth } from '@/lib/money'
+import { cn } from '@/lib/utils'
 import { useNftSubscription } from '@/realtime/context'
 
 const DESKTOP_GRID = 'grid-cols-[1fr_138px_136px_150px_48px]'
@@ -63,6 +64,8 @@ function CartRow({ item, line }: { item: CartItem; line?: Quote['lines'][number]
   const lineTotal = line?.lineTotal ?? eth.mul(item.unitPrice, item.quantity)
   const setQuantity = (quantity: number) => update.mutate({ itemId: item.id, quantity, name: item.name })
   const removeItem = () => remove.mutate({ itemId: item.id, name: item.name })
+  // Sold-out lines are left out of the API quote: strike their prices so the row matches the summary.
+  const priceClass = cn('text-base font-bold', item.available === 0 ? 'text-muted-foreground line-through' : 'text-brand')
   const stepper = (
     <QuantityStepper size="sm" value={item.quantity} max={max} onChange={setQuantity} label={item.name} disabled={item.available === 0} />
   )
@@ -82,9 +85,9 @@ function CartRow({ item, line }: { item: CartItem; line?: Quote['lines'][number]
             </p>
           </div>
         </div>
-        <p className="text-base font-bold text-brand">{formatEth(item.unitPrice)}</p>
+        <p className={priceClass}>{formatEth(item.unitPrice)}</p>
         {stepper}
-        <p className="text-base font-bold text-brand">{formatEth(lineTotal)}</p>
+        <p className={priceClass}>{formatEth(lineTotal)}</p>
         <button
           type="button"
           onClick={removeItem}
@@ -116,7 +119,7 @@ function CartRow({ item, line }: { item: CartItem; line?: Quote['lines'][number]
           </div>
           <p className="text-sm text-muted-foreground">Edição: {item.editionLabel}</p>
           <div className="mt-1 flex items-center justify-between">
-            <p className="text-base font-bold text-brand">{formatEth(item.unitPrice)}</p>
+            <p className={priceClass}>{formatEth(item.unitPrice)}</p>
             {stepper}
           </div>
         </div>

@@ -1,9 +1,16 @@
 import { Outlet, useRouterState } from '@tanstack/react-router'
+import { lazy, Suspense } from 'react'
 import { Toaster } from 'sonner'
 import { useAnnouncement } from '@/lib/announcer'
+import { env } from '@/lib/env'
 import { Footer } from './footer'
 import { Header } from './header'
 import { MobileTabBar } from './mobile-nav'
+import { PendingOrderBanner } from './pending-order-banner'
+import { SessionWatcher } from './session-watcher'
+
+// Demo-only panel: separate chunk, never loaded when mocks are disabled.
+const MockPanel = lazy(() => import('./mock-panel').then((module) => ({ default: module.MockPanel })))
 
 /** Polite and assertive live regions for async feedback (mutations, realtime changes). */
 function LiveRegion() {
@@ -39,6 +46,7 @@ export function RootLayout() {
         <Header />
       </div>
       <main id="conteudo" tabIndex={-1} className="outline-none">
+        <PendingOrderBanner />
         <Outlet />
       </main>
       {!hidesFooter(pathname) && <Footer />}
@@ -49,6 +57,12 @@ export function RootLayout() {
         </>
       )}
       <LiveRegion />
+      <SessionWatcher />
+      {env.enableMocks && (
+        <Suspense fallback={null}>
+          <MockPanel />
+        </Suspense>
+      )}
       <Toaster
         theme="dark"
         position="top-center"
