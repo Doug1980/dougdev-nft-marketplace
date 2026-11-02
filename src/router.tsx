@@ -72,7 +72,11 @@ const nftRoute = createRoute({
   // Code-split: the detail bundle loads only when this route is visited.
   component: lazyRouteComponent(() => import('@/pages/nft-detail'), 'NftDetailPage'),
 })
-const cartRoute = createRoute({ getParentRoute: () => rootRoute, path: '/carrinho', component: () => <PlaceholderPage title="Carrinho" /> })
+const cartRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/carrinho',
+  component: lazyRouteComponent(() => import('@/pages/cart'), 'CartPage'),
+})
 const checkoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/pagamento',
