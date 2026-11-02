@@ -4,7 +4,8 @@ Solução do desafio Frontend da Jungle Gaming: marketplace de NFTs com catálog
 
 Toda a API REST e o servidor Socket.IO são simulados no navegador com **MSW**, então o projeto roda a partir de um checkout limpo, sem backend nem serviços privados.
 
-- **Aplicação publicada:** _(adicionada na etapa de deploy)_
+- **Aplicação publicada:** https://dougdev-nft-marketplace.vercel.app
+- **Repositório:** https://github.com/Doug1980/dougdev-nft-marketplace
 - **Arquitetura e decisões:** [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ## Stack
@@ -45,18 +46,19 @@ npm run dev                     # http://localhost:5173
 
 ## Comandos
 
-| Comando                   | O que faz                                                               |
-| ------------------------- | ----------------------------------------------------------------------- |
-| `npm run dev`             | Desenvolvimento com mocks (Vite, porta 5173)                            |
-| `npm run build`           | Typecheck + build de produção em `dist/`                                |
-| `npm run preview`         | Serve o build de produção (porta 4173)                                  |
-| `npm run typecheck`       | Verificação de tipos (`tsc -b`)                                         |
-| `npm run lint`            | ESLint                                                                  |
-| `npm run format`          | Formatação com Biome                                                    |
-| `npm run test:e2e`        | Playwright: faz o build, sobe o preview e roda desktop + mobile         |
-| `npm run test:e2e:update` | Atualiza as screenshots de regressão visual                             |
-| `npm run test:e2e:report` | Abre o relatório HTML do Playwright                                     |
-| `npm run lighthouse`      | Build + auditoria Lighthouse (3 execuções por página e perfil, mediana) |
+| Comando                   | O que faz                                                                              |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| `npm run dev`             | Desenvolvimento com mocks (Vite, porta 5173)                                           |
+| `npm run build`           | Typecheck + build de produção em `dist/`                                               |
+| `npm run preview`         | Serve o build de produção (porta 4173)                                                 |
+| `npm run typecheck`       | Verificação de tipos (`tsc -b`)                                                        |
+| `npm run lint`            | ESLint                                                                                 |
+| `npm run format`          | Formatação com Biome                                                                   |
+| `npm run test:e2e`        | Playwright: faz o build, sobe o preview e roda desktop + mobile                        |
+| `npm run test:e2e:update` | Atualiza as screenshots de regressão visual                                            |
+| `npm run test:e2e:report` | Abre o relatório HTML do Playwright                                                    |
+| `npm run test:e2e:prod`   | Roda a mesma suíte contra a aplicação publicada na Vercel (sem as screenshots visuais) |
+| `npm run lighthouse`      | Build + auditoria Lighthouse (3 execuções por página e perfil, mediana)                |
 
 ## Credenciais fictícias
 
