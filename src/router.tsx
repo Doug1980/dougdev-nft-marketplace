@@ -6,7 +6,7 @@ import { RootLayout } from '@/components/layout/root-layout'
 import { catalogQueryOptions } from '@/features/catalog'
 import { sessionStore } from '@/lib/session-store'
 import { ComingSoonPage } from '@/pages/coming-soon'
-import { DevCheckPage } from '@/pages/dev-check'
+import { HomePage } from '@/pages/home'
 import { NotFoundPage } from '@/pages/not-found'
 import { PlaceholderPage } from '@/pages/placeholder'
 
@@ -53,7 +53,7 @@ const homeRoute = createRoute({
   loader: ({ context, deps }) => {
     void context.queryClient.prefetchQuery(catalogQueryOptions({ ...deps, sort: deps.sort ?? 'recent', page: deps.page ?? 1 }))
   },
-  component: DevCheckPage,
+  component: HomePage,
 })
 
 const nftRoute = createRoute({
