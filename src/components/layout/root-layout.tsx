@@ -1,5 +1,5 @@
 import { Outlet, useRouterState } from '@tanstack/react-router'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Toaster } from 'sonner'
 import { useAnnouncement } from '@/lib/announcer'
 import { env } from '@/lib/env'
@@ -11,6 +11,26 @@ import { SessionWatcher } from './session-watcher'
 
 // Demo-only panel: separate chunk, never loaded when mocks are disabled.
 const MockPanel = lazy(() => import('./mock-panel').then((module) => ({ default: module.MockPanel })))
+
+/** The demo panel is not part of the page content: load it only after the page has finished loading. */
+function DeferredMockPanel() {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    const show = () => setReady(true)
+    if (document.readyState === 'complete') {
+      const id = window.setTimeout(show, 1500)
+      return () => window.clearTimeout(id)
+    }
+    window.addEventListener('load', show, { once: true })
+    return () => window.removeEventListener('load', show)
+  }, [])
+  if (!ready) return null
+  return (
+    <Suspense fallback={null}>
+      <MockPanel />
+    </Suspense>
+  )
+}
 
 /** Polite and assertive live regions for async feedback (mutations, realtime changes). */
 function LiveRegion() {
@@ -59,11 +79,7 @@ export function RootLayout() {
       )}
       <LiveRegion />
       <SessionWatcher />
-      {env.enableMocks && (
-        <Suspense fallback={null}>
-          <MockPanel />
-        </Suspense>
-      )}
+      {env.enableMocks && <DeferredMockPanel />}
       <Toaster
         theme="dark"
         position="top-center"

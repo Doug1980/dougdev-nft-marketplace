@@ -167,17 +167,20 @@ O script (`scripts/lighthouse.mjs`) faz o build, serve com `vite preview` (mocks
 
 | Página  | Perfil  | Performance | Accessibility | Best Practices | SEO |     LCP |   CLS |    TBT |
 | ------- | ------- | ----------: | ------------: | -------------: | --: | ------: | ----: | -----: |
-| Início  | mobile  |          76 |            96 |            100 |  92 | 4927 ms | 0.000 | 268 ms |
-| Início  | desktop |          99 |            97 |            100 |  92 |  881 ms | 0.002 |   0 ms |
-| Detalhe | mobile  |          83 |           100 |            100 |  92 | 4617 ms | 0.000 | 105 ms |
-| Detalhe | desktop |          99 |           100 |            100 |  92 |  965 ms | 0.000 |   0 ms |
+| Início  | mobile  |          88 |            96 |            100 |  92 | 3494 ms | 0.000 | 198 ms |
+| Início  | desktop |         100 |            97 |            100 |  92 |  698 ms | 0.002 |   0 ms |
+| Detalhe | mobile  |          89 |           100 |            100 |  92 | 3613 ms | 0.000 | 105 ms |
+| Detalhe | desktop |         100 |           100 |            100 |  92 |  734 ms | 0.000 |   0 ms |
 
-Metas: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 90. Todas foram atingidas, exceto **Performance no perfil mobile**.
+Metas: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 90. Accessibility, Best Practices e SEO atingem a meta em todas as combinações; Performance atinge no desktop (100) e fica a 1 e 2 pontos da meta no mobile.
 
-**Por que o mobile fica abaixo de 90:** a métrica que pesa é o **LCP** (cerca de 4,6 a 4,9 s); TBT e CLS estão bons. O LCP depende de o app renderizar, e o app só renderiza depois que o **backend simulado** está de pé dentro do navegador: o chunk do MSW (475 KB, 175 KB gzip: MSW, cookie store, banco simulado, regras de negócio e servidor Socket.IO) precisa ser baixado na rede 4G lenta simulada e o Service Worker precisa ser registrado antes da primeira requisição. Em produção com uma API real, esse chunk e essa espera não existiriam. A auditoria não desliga os mocks nem simplifica a página, porque o desafio exige auditar a entrega real.
+**Por que o mobile fica logo abaixo de 90:** a métrica que pesa é o **LCP** (cerca de 3,5 a 3,6 s no celular simulado, com CPU 4× mais lenta e rede 4G lenta); TBT e CLS estão bons. O LCP depende de o app renderizar, e o app só renderiza depois que o **backend simulado** está de pé dentro do navegador: o chunk do MSW (banco simulado, regras de negócio e servidor Socket.IO, 54 KB gzip) precisa ser baixado e o Service Worker precisa ser registrado antes da primeira requisição. Com uma API real, esse chunk e essa espera não existiriam. A auditoria não desliga os mocks nem simplifica a página, porque o desafio exige auditar a entrega real.
 
 **Otimizações aplicadas a partir da auditoria:**
 
+- **`tough-cookie` substituído por um stub** (`src/mocks/tough-cookie-stub.ts`, alias no `vite.config.ts`): o MSW usa essa biblioteca só para emular cookies, que o app não usa (autenticação por Bearer). O chunk do MSW caiu de 475 KB (175 KB gzip) para 181 KB (54 KB gzip), e o LCP mobile de ~4,8 s para ~3,5 s.
+- **`modulepreload` dos chunks da inicialização** (plugin no `vite.config.ts`): MSW, sessão e app baixam em paralelo com o script de entrada, em vez de em fila.
+- O painel de cenários só é carregado depois do evento `load`, sem disputar banda com o conteúdo.
 - O código do app é baixado **em paralelo** com a inicialização do MSW, e o `socket.io-client` é carregado sob demanda (fora do bundle inicial).
 - `preload` da imagem que é LCP (destaque no desktop, primeiro card no mobile).
 - `min-height` no conteúdo principal: eliminou o CLS de 0,218 causado pelo rodapé subindo enquanto a página lazy carregava.

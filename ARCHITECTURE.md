@@ -201,6 +201,6 @@ Eventos de entrada compartilham um envelope com identidade, recurso e versão:
 ## Limitações
 
 - O backend roda no navegador: os dados são por navegador (`localStorage`) e não sincronizam entre dispositivos ou abas diferentes em tempo real.
-- **Performance mobile no Lighthouse** fica abaixo de 90 (76 no Início, 83 no Detalhe) por causa do custo do backend simulado no carregamento; detalhes e medições no README.
+- **Performance mobile no Lighthouse** fica logo abaixo de 90 (88 no Início, 89 no Detalhe) por causa do custo de subir o backend simulado antes da primeira renderização; no desktop é 100. Detalhes, medições e otimizações no README.
 - Login social, recuperação de senha e as seções editoriais estão fora do escopo (com aviso explícito na interface).
 - Autenticação, hash de senha e "blockchain" são simulações para fins de demonstração, sem garantias de segurança reais.
