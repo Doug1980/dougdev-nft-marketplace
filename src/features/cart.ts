@@ -20,8 +20,8 @@ export function useCart() {
     queryKey: qk.cart(useCartOwner()),
     queryFn: async ({ signal }) => {
       const cart = await cartApi.get({ signal })
-      // First guest visit: the server creates the cart and we persist its id.
-      if (!cart.ownerId) sessionStore.setGuestCartId(cart.id)
+      // First guest visit: the server creates the cart and we persist its id (never replace an existing one).
+      if (!cart.ownerId && !sessionStore.guestCartId()) sessionStore.setGuestCartId(cart.id)
       return cart
     },
     staleTime: 10_000,
@@ -30,13 +30,26 @@ export function useCart() {
 
 export const cartCount = (cart: Cart | undefined) => cart?.items.reduce((acc, item) => acc + item.quantity, 0) ?? 0
 
+/**
+ * A guest needs a cart id before the first write; otherwise a write racing the first GET would land
+ * in a second, untracked cart and its items would be lost on sign-in.
+ */
+async function ensureGuestCart() {
+  if (sessionStore.token() || sessionStore.guestCartId()) return
+  const cart = await cartApi.get()
+  if (!cart.ownerId) sessionStore.setGuestCartId(cart.id)
+}
+
 /** Cart mutations run serially (shared scope) so rapid clicks never race. */
 function useCartMutation<TVars>(mutationFn: (vars: TVars) => Promise<Cart>, successMessage?: (vars: TVars) => string) {
   const qc = useQueryClient()
   const owner = useCartOwner()
   return useMutation({
     scope: { id: 'cart' },
-    mutationFn,
+    mutationFn: async (vars: TVars) => {
+      await ensureGuestCart()
+      return mutationFn(vars)
+    },
     onSuccess: (cart, vars) => {
       qc.setQueryData(qk.cart(owner), cart)
       void qc.invalidateQueries({ queryKey: qk.quoteAll })

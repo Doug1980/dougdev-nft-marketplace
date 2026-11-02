@@ -23,6 +23,14 @@ export async function startMocks() {
   if (params.has('resetMocks')) await db.reset(isScenarioId(scenario) ? scenario : 'default')
   else if (isScenarioId(scenario)) db.setScenario(scenario)
 
+  // One-shot flags: drop them from the URL so a refresh does not reset the data again.
+  if (params.has('resetMocks') || params.has('scenario')) {
+    params.delete('resetMocks')
+    params.delete('scenario')
+    const query = params.toString()
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`)
+  }
+
   const worker = setupWorker(...handlers)
   await worker.start({
     serviceWorker: { url: '/mockServiceWorker.js' },

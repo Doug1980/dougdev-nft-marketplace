@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
 import { LogIn, Menu, Search, ShoppingCart, UserRound } from 'lucide-react'
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
@@ -64,6 +64,9 @@ export function CartButton({ className }: { className?: string }) {
 export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const navigate = useNavigate()
   const [value, setValue] = useState('')
+  // Opened by state (header and mobile bar share it), so there is no Radix Trigger:
+  // remember the focused element and give focus back to it on close.
+  const returnFocus = useRef<HTMLElement | null>(null)
   const submit = (event: FormEvent) => {
     event.preventDefault()
     onOpenChange(false)
@@ -71,14 +74,24 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="p-6 pt-8" accentBar={false}>
+      <DialogContent
+        className="p-6 pt-8"
+        accentBar={false}
+        onOpenAutoFocus={() => {
+          returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+        }}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault()
+          returnFocus.current?.focus()
+        }}
+      >
         <DialogTitle>Buscar NFTs</DialogTitle>
         <DialogDescription>Procure por nome, coleção ou ID do token.</DialogDescription>
         <form onSubmit={submit} role="search" className="mt-2 flex gap-2">
           <label htmlFor="global-search" className="sr-only">
             Termo de busca
           </label>
-          <Input id="global-search" autoFocus value={value} onChange={(e) => setValue(e.target.value)} placeholder="Ex.: Emerald Ape" />
+          <Input id="global-search" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Ex.: Emerald Ape" />
           <Button type="submit">Buscar</Button>
         </form>
       </DialogContent>

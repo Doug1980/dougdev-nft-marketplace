@@ -17,16 +17,21 @@ async function establishSession(qc: QueryClient, session: Session) {
   const previousUserId = sessionStore.userId()
   if (previousUserId && previousUserId !== session.user.id) clearPrivateCache(qc)
 
+  // Guest items move into the account cart. The merge runs with the new token *before* the session switch,
+  // so the account cart query starts with the merged cart and no stale GET can overwrite it.
   const guestCartId = sessionStore.guestCartId()
-  sessionStore.set(session)
-  // Guest items move into the account cart.
+  let merged = false
   try {
-    const merged = await cartApi.merge(guestCartId)
-    sessionStore.setGuestCartId(null)
-    qc.removeQueries({ queryKey: qk.cart('guest') })
-    qc.setQueryData(qk.cart(`user:${session.user.id}`), merged)
+    qc.setQueryData(qk.cart(`user:${session.user.id}`), await cartApi.merge(guestCartId, session.token))
+    merged = true
   } catch {
     // Cart reloads normally; the guest id is kept for a later merge.
+  }
+
+  sessionStore.set(session)
+  if (merged) {
+    sessionStore.setGuestCartId(null)
+    qc.removeQueries({ queryKey: qk.cart('guest') })
   }
   announce(`Você entrou como ${session.user.displayName}.`)
 }

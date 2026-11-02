@@ -13,6 +13,8 @@ export const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
+  // An explicit Authorization header (session handoff on login) wins over the stored session.
+  if (config.headers.has('Authorization')) return config
   const token = sessionStore.token()
   if (token) {
     config.headers.set('Authorization', `Bearer ${token}`)

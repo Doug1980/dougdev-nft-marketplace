@@ -82,7 +82,9 @@ export const cartApi = {
   remove: async (itemId: string) => parse(cart, (await http.delete(`/cart/items/${itemId}`)).data),
   applyCoupon: async (code: string) => parse(cart, (await http.put('/cart/coupon', { code })).data),
   removeCoupon: async () => parse(cart, (await http.delete('/cart/coupon')).data),
-  merge: async (guestCartId: string | null) => parse(cart, (await http.post('/cart/merge', { guestCartId })).data),
+  /** Called with the new token before the session is switched (see establishSession). */
+  merge: async (guestCartId: string | null, token: string) =>
+    parse(cart, (await http.post('/cart/merge', { guestCartId }, { headers: { Authorization: `Bearer ${token}` } })).data),
 }
 
 export const quoteApi = {

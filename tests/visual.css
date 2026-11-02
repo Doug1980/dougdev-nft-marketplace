@@ -1,0 +1,5 @@
+/* Volatile elements excluded from visual baselines */
+[data-testid="mock-panel-trigger"],
+[data-sonner-toaster] {
+  display: none !important;
+}
