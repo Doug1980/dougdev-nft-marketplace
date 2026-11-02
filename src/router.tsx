@@ -89,13 +89,13 @@ const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/entrar',
   validateSearch: authSearchSchema,
-  component: () => <PlaceholderPage title="Entrar" />,
+  component: lazyRouteComponent(() => import('@/pages/auth'), 'LoginPage'),
 })
 const registerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/cadastro',
   validateSearch: authSearchSchema,
-  component: () => <PlaceholderPage title="Criar conta" />,
+  component: lazyRouteComponent(() => import('@/pages/auth'), 'RegisterPage'),
 })
 const profileRoute = createRoute({ getParentRoute: () => rootRoute, path: '/perfil', beforeLoad: requireAuth })
 const profileIndexRoute = createRoute({
