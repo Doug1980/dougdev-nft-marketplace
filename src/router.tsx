@@ -87,7 +87,7 @@ const orderRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/pedidos/$orderId',
   beforeLoad: requireAuth,
-  component: () => <PlaceholderPage title="Pedido" />,
+  component: lazyRouteComponent(() => import('@/pages/order'), 'OrderPage'),
 })
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -117,6 +117,11 @@ const favoritesRoute = createRoute({
   path: '/favoritos',
   component: () => <PlaceholderPage title="Lista de interesse" />,
 })
+const explorerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/explorador/tx/$hash',
+  component: lazyRouteComponent(() => import('@/pages/explorer'), 'ExplorerPage'),
+})
 const comingSoonRoute = createRoute({ getParentRoute: () => rootRoute, path: '/em-breve/$section', component: ComingSoonPage })
 
 const routeTree = rootRoute.addChildren([
@@ -128,6 +133,7 @@ const routeTree = rootRoute.addChildren([
   loginRoute,
   registerRoute,
   profileRoute.addChildren([profileIndexRoute, walletsRoute, favoritesRoute]),
+  explorerRoute,
   comingSoonRoute,
 ])
 
